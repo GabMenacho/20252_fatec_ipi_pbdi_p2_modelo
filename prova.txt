@@ -183,6 +183,7 @@ EXERCÍCIO 7 (PYTHON)
 CADASTRO DE DIMENSÕES
  
 dim_jogo = df[["jogo_key", "Name", "Rank"]].drop_duplicates()
+
 for index, row in dim_jogo.iterrows():
     cur.execute("""
         INSERT INTO dim_jogo (jogo_key, nome, rank)
@@ -217,11 +218,10 @@ for index, row in dim_genero.iterrows():
 dim_editora = df[["editora_key", "Publisher"]].drop_duplicates()
 for index, row in dim_editora.iterrows():
     cur.execute("""
-        INSERT INTO dim_editora (editora_key, nome)
+        INSERT INTO dim_editora (editora_key, editora)
         VALUES (%s, %s)
         ON CONFLICT (editora_key) DO NOTHING;
     """, (row["editora_key"], row["Publisher"]))
- 
  
 ===========================
  
