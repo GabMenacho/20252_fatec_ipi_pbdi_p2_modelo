@@ -9,13 +9,15 @@ print(df.head())
 #transformação
 df["jogo_key"] = df["Name"].astype('category').cat.codes + 1
  
-df["ano_key"] = df["Year"]
+df['Year'] = df['Year'].fillna(0)
+
+df["ano_key"] = df["Year"].astype(int)
  
 df["plataforma_key"] = df["Platform"].astype('category').cat.codes + 1
  
 df["genero_key"] = df["Genre"].astype('category').cat.codes + 1
  
-df["editora_key"] = df["Publisher"].astype('category').cat.codes + 1
+df["editora_key"] = df["Publisher"].astype('category').cat.codes + 1   
 
 print(df.shape)
 print(df.dtypes)
@@ -32,7 +34,6 @@ conexao = psycopg2.connect(
 print(conexao)
 
 cur = conexao.cursor()
-
 
 dim_jogo = df[["jogo_key", "Name", "Rank"]].drop_duplicates()
 
@@ -70,7 +71,7 @@ for index, row in dim_genero.iterrows():
 dim_editora = df[["editora_key", "Publisher"]].drop_duplicates()
 for index, row in dim_editora.iterrows():
     cur.execute("""
-        INSERT INTO dim_editora (editora_key, nome)
+        INSERT INTO dim_editora (editora_key, editora)
         VALUES (%s, %s)
         ON CONFLICT (editora_key) DO NOTHING;
     """, (row["editora_key"], row["Publisher"]))
@@ -82,7 +83,7 @@ fato = df[[
 
 for index, row in fato.iterrows():
     cur.execute("""
-        INSERT INTO fato_vendas_vg (
+        INSERT INTO fato_vendas (
             jogo_key, ano_key, plataforma_key, genero_key, editora_key,
             vendas_na, vendas_eu, vendas_jp, vendas_outras, vendas_global
         )
@@ -103,7 +104,7 @@ for index, row in fato.iterrows():
 
 
 
-#realiza cadastro na tabela fato
+# #realiza cadastro na tabela fato
 fato = df[[
     "jogo_key", "ano_key", "plataforma_key", "genero_key", "editora_key",
     "NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales", "Global_Sales"
@@ -128,10 +129,4 @@ for index, row in fato.iterrows():
         row["Global_Sales"]
     ))
  
-
-
 conexao.commit()
-print(f"\n Carga da Tabela Fato (fato_vendas_vg) concluída!") 
-# Fecha o cursor e a 
-# cur.close() 
-# conexao.close()
