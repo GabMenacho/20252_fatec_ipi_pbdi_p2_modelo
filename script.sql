@@ -1,6 +1,8 @@
--- Active: 1710242554065@@127.0.0.1@5432@dw_vendas_vg
+-- Active: 1710242554065@@127.0.0.1@5432@p2_video_game_sales
 CREATE DATABASE p2_video_game_sales
 
+
+DROP TABLE IF EXISTS dim_tempo;
 CREATE TABLE dim_tempo (
     data_key INTEGER PRIMARY KEY,
     ano INTEGER
@@ -15,10 +17,11 @@ CREATE TABLE dim_genero (
     genero_key INTEGER PRIMARY KEY,
     genero VARCHAR(50)
 );
- 
+
+drop table dim_editora;
 CREATE TABLE dim_editora (
     editora_key INTEGER PRIMARY KEY,
-    edtora VARCHAR(100)
+    editora VARCHAR(100)
 );
 
 
