@@ -1,3 +1,4 @@
+-- Active: 1710242554065@@127.0.0.1@5432@dw_vendas_vg
 CREATE DATABASE p2_video_game_sales
 
 CREATE TABLE dim_tempo (
@@ -19,12 +20,16 @@ CREATE TABLE dim_editora (
     editora_key INTEGER PRIMARY KEY,
     edtora VARCHAR(100)
 );
- 
+
+
+DROP TABLE IF EXISTS dim_jogo;
 CREATE TABLE dim_jogo (
     jogo_key INTEGER PRIMARY KEY,
     nome VARCHAR(255),
     rank INTEGER
 );
+
+DROP TABLE IF EXISTS fato_vendas;
 
 CREATE TABLE fato_vendas(
     venda_key SERIAL PRIMARY KEY,
@@ -40,4 +45,4 @@ CREATE TABLE fato_vendas(
     vendas_global NUMERIC(10,2)
 );
 
-
+SELECT * FROM dim_jogo;
