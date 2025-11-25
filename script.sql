@@ -26,5 +26,18 @@ CREATE TABLE dim_jogo (
     rank INTEGER
 );
 
+CREATE TABLE fato_vendas(
+    venda_key SERIAL PRIMARY KEY,
+    jogo_key INTEGER REFERENCES dim_jogo(jogo_key),
+    ano_key INTEGER REFERENCES dim_tempo(data_key),
+    plataforma_key INTEGER REFERENCES dim_plataforma(plataforma_key),
+    genero_key INTEGER REFERENCES dim_genero(genero_key),
+    editora_key INTEGER REFERENCES dim_editora(editora_key),
+    vendas_na NUMERIC(10,2),
+    vendas_eu NUMERIC(10,2),
+    vendas_jp NUMERIC(10,2),
+    vendas_outras NUMERIC(10,2),
+    vendas_global NUMERIC(10,2)
+);
 
 
