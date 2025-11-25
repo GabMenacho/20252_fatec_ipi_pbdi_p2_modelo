@@ -1,0 +1,1 @@
+CREATE DATABASE p2_video_game_sales
