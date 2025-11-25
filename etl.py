@@ -100,6 +100,36 @@ for index, row in fato.iterrows():
         row["Global_Sales"]
     ))
 
+
+
+
+#realiza cadastro na tabela fato
+fato = df[[
+    "jogo_key", "ano_key", "plataforma_key", "genero_key", "editora_key",
+    "NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales", "Global_Sales"
+]]
+for index, row in fato.iterrows():
+    cur.execute("""
+        INSERT INTO fato_vendas_vg (
+            jogo_key, ano_key, plataforma_key, genero_key, editora_key,
+            vendas_na, vendas_eu, vendas_jp, vendas_outras, vendas_global
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+    """, (
+        row["jogo_key"],
+        row["ano_key"],
+        row["plataforma_key"],
+        row["genero_key"],
+        row["editora_key"],
+        row["NA_Sales"],
+        row["EU_Sales"],
+        row["JP_Sales"],
+        row["Other_Sales"],
+        row["Global_Sales"]
+    ))
+ 
+
+
 conexao.commit()
 print(f"\n Carga da Tabela Fato (fato_vendas_vg) concluída!") 
 # Fecha o cursor e a 
